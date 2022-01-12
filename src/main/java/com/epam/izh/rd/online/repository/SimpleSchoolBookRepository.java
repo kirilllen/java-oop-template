@@ -18,20 +18,37 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
 
     @Override
     public SchoolBook[] findByName(String name) {
-        int[] booksId=new int[MAX_NUMBER]; //переменная для возвращения автора
         SchoolBook[] books; //массив для хранения найденных книг
-        int counter=0; //переменная-счётчик найденных книг
+        int counter=getBooksNumber(name);
+        int[] booksId;
+        booksId=getBooksId(name, counter);
+        books=new SchoolBook[counter];
+        for (int i=0;i<counter;i++){
+            books[i]=schoolBooks[booksId[i]];
+        }
+        return books;
+    }
+
+    private int getBooksNumber (String name){ //метод для определения количества найденных книг
+        int counter=0;
+        for (int i=0; i<schoolBookNumber; i++){
+            if (name.equals(schoolBooks[i].getName())) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    private int[] getBooksId (String name, int number) { //метод выписывает порядковые номера книг в массиве
+        int[] booksId=new int[number];
+        int counter=0; //счётчик для книг
         for (int i=0; i<schoolBookNumber; i++){
             if (name.equals(schoolBooks[i].getName())) {
                 booksId[counter]=i;
                 counter++;
             }
         }
-        books=new SchoolBook[counter];
-        for (int i=0;i<counter;i++){
-            books[i]=schoolBooks[booksId[i]];
-        }
-        return books;
+        return booksId;
     }
     /*
      * Метод должен удалять книги из массива schoolBooks по названию.
@@ -46,7 +63,31 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
      */
     @Override
     public boolean removeByName(String name) {
-        return false;
+        SchoolBook[] foundBooks; //массив для хранения найденных книг
+        int counter=getBooksNumber(name);
+        int[] booksId;
+        booksId=getBooksId(name, counter);
+        if (counter==0) {
+            return false;
+        }
+        else {
+            for (int i : booksId) {
+                schoolBooks[booksId[i]]=null;
+            }
+            for (int i=0; i<schoolBookNumber; i++) {
+                if (schoolBooks[i]==null) { //смещаем массив
+                    for (int j=i; j<schoolBookNumber; j++){
+                        schoolBooks[j]=schoolBooks[j+1];
+                        schoolBooks[j+1]=null;
+                    }
+                }
+
+                }
+            for (int i=0; i<booksId.length; i++){
+                schoolBookNumber--;
+            }
+            return true;
+        }
     }
 
     @Override
