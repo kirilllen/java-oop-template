@@ -3,7 +3,8 @@ package com.epam.izh.rd.online.repository;
 import com.epam.izh.rd.online.entity.Author;
 
 public class SimpleAuthorsRepository implements AuthorRepository{
-    Author[] authors;
+    public static int authorNumber=0; //счётчик количества авторов
+    Author[] authors=new Author[100_000]; //по ТЗ нельзя использовать ArrayList (коллекции), примем максимальное количество авторов 100_000, т.к. размер массива в ходе выполнения программы менять нельзя
 
     @Override
     public boolean save(Author author) {
@@ -26,13 +27,25 @@ public class SimpleAuthorsRepository implements AuthorRepository{
 
     @Override
     public Author findByFullName(String name, String lastname) {
+        int authorId=0; //переменная для возвращения автора
+        boolean found=false; //переменная для обозначения того, что мы нашли автора
+        Author author;
         /*
           Метод должен находить в массиве authors автора по имени и фамилии (считаем, что двух авторов
           с одинаковыми именем и фамилией быть не может.)
           <p>
           Если автор с таким именем и фамилией найден - возвращаем его, если же не найден, метод должен вернуть null.
          */
-        return null;
+        for (int i=0; i<authorNumber; i++){
+            if (lastname.equals(authors[i].getLastName())) {
+                if (name.equals(authors[i].getName())){
+                    authorId=i;
+                    found=true;
+                }
+            }
+        }
+        author= (found) ? authors[authorId] : null;
+        return author;
     }
 
     @Override
