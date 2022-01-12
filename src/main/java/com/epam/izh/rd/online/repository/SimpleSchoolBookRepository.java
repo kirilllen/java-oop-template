@@ -11,7 +11,9 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
 
     @Override
     public boolean save(SchoolBook book) {
-        return false;
+        schoolBooks[schoolBookNumber]=book;
+        schoolBookNumber++;
+        return true;
     }
 
     @Override
@@ -23,7 +25,6 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
             if (name.equals(schoolBooks[i].getName())) {
                 booksId[counter]=i;
                 counter++;
-
             }
         }
         books=new SchoolBook[counter];
@@ -32,7 +33,17 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
         }
         return books;
     }
-
+    /*
+     * Метод должен удалять книги из массива schoolBooks по названию.
+     * Если книг с одинаковым названием в массиве несколько, метод должен удалить их все.
+     * <p>
+     * Важно: при удалении книги из массива размер массива должен уменьшиться!
+     * То есть, если мы сохранили 2 разные книги и вызвали count() (метод ниже), то он должен вернуть 2.
+     * Если после этого мы удалили 1 книгу, метод count() должен вернуть 1.
+     * <p>
+     * Если хотя бы одна книга была найдена и удалена, метод должен вернуть true, в противном случае,
+     * если книга не была найдена, метод должен вернуть false.
+     */
     @Override
     public boolean removeByName(String name) {
         return false;
