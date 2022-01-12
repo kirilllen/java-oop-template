@@ -8,6 +8,7 @@ public class SimpleAuthorsRepository implements AuthorRepository{
 
     @Override
     public boolean save(Author author) {
+        Author foundAuthor; //поле для найденного автора
         /*
           Метод должен сохранять автора в массив authors.
           Массив при каждом сохранении должен увеличиваться в размере ровно на 1.
@@ -22,7 +23,15 @@ public class SimpleAuthorsRepository implements AuthorRepository{
           <p>
           Если сохранение прошло успешно, метод должен вернуть true.
          */
-        return false;
+        foundAuthor=findByFullName(author.getName(), author.getLastName());
+        if (foundAuthor!=null) {
+            return false;
+        }
+        else {
+            authors[authorNumber]=author;
+            authorNumber++;
+            return true;
+        }
     }
 
     @Override
@@ -50,6 +59,9 @@ public class SimpleAuthorsRepository implements AuthorRepository{
 
     @Override
     public boolean remove(Author author) {
+        Author foundAuthor; //переменная найденного автора
+        boolean found=false;
+        int authorId;
         /*
           Метод должен удалять автора из массива authors, если он там имеется.
           Автора опять же, можно определять только по совпадению имении и фамилии.
@@ -61,7 +73,42 @@ public class SimpleAuthorsRepository implements AuthorRepository{
           Если автор был найден и удален, метод должен вернуть true, в противном случае, если автор не был найден, метод
           должен вернуть false.
          */
-        return false;
+        foundAuthor=findByFullName(author.getName(), author.getLastName());
+        if (foundAuthor==null) {
+            return false;
+        }
+        else {
+            //определим порядковый номер автора
+            authorId=getAuthorId(foundAuthor);
+            authors[authorId]=null;
+            authorNumber--; //уменьшаем количество авторов на одного
+            for (int i=authorId; i<authorNumber; i++){  //смещение массива (удаление лишнего элемента)
+                authors[i]=authors[i+1];
+                authors[i+1]=null;
+            }
+            return true;
+        }
+    }
+
+    // метод для определения id автора
+    private int getAuthorId(Author author){
+        boolean found=false;
+        int foundId=-1;
+        for (int i=0; i<authorNumber; i++){
+            if (author.getLastName().equals(authors[i].getLastName())) {
+                if (author.getName().equals(authors[i].getName())) {
+                    foundId=i;
+                    found=true;
+                }
+            }
+
+        }
+        if (found) {
+            return foundId;
+        }
+        else {
+            return -1; //если не находим, возвращаем -1
+        }
     }
 
     @Override
@@ -69,6 +116,6 @@ public class SimpleAuthorsRepository implements AuthorRepository{
         /*
           Метод возвращает количество сохраненных сущностей в массиве authors.
          */
-        return 0;
+        return authorNumber;
     }
 }
