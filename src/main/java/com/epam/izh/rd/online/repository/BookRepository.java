@@ -1,5 +1,6 @@
 package com.epam.izh.rd.online.repository;
 
+import com.epam.izh.rd.online.entity.Author;
 import com.epam.izh.rd.online.entity.Book;
 
 /**
