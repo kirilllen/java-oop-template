@@ -28,7 +28,7 @@ public class SimpleSchoolBookService implements BookService<SchoolBook>{
             return false;
         }
         else {
-            save(book);
+            schoolBookBookRepository.save(book);
             return true;
         }
     }
