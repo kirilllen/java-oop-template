@@ -2,7 +2,7 @@ package com.epam.izh.rd.online.repository;
 
 import com.epam.izh.rd.online.entity.Author;
 
-public class SimpleAuthorsRepository implements AuthorRepository{
+public class SimpleAuthorRepository implements AuthorRepository{
     public static int authorNumber=0; //счётчик количества авторов
     Author[] authors=new Author[100_000]; //по ТЗ нельзя использовать ArrayList (коллекции), примем максимальное количество авторов 100_000, т.к. размер массива в ходе выполнения программы менять нельзя
 

@@ -3,7 +3,6 @@ package com.epam.izh.rd.online.service;
 import com.epam.izh.rd.online.entity.Author;
 import com.epam.izh.rd.online.entity.SchoolBook;
 import com.epam.izh.rd.online.repository.BookRepository;
-import com.epam.izh.rd.online.repository.SimpleAuthorsRepository;
 
 public class SimpleSchoolBookService implements BookService<SchoolBook>{
     private BookRepository<SchoolBook> schoolBookBookRepository;
