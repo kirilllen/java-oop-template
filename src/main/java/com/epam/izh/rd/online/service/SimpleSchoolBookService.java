@@ -22,7 +22,15 @@ public class SimpleSchoolBookService implements BookService<SchoolBook>{
      */
     @Override
     public boolean save(SchoolBook book) {
-        return false;
+        Author author;
+        author=authorService.findByFullName(book.getAuthorName(), book.getAuthorLastName());
+        if (author==null){
+            return false;
+        }
+        else {
+            save(book);
+            return true;
+        }
     }
 
     /**
